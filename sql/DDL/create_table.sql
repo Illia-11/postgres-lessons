@@ -11,6 +11,9 @@ CREATE TABLE users(
   birthday DATE -- дата
 );
 
+--
+CREATE TABLE IF NOT EXISTS users();
+
 /*
   Символьні типи даних
     text - найближчий аналог JS стрінги
