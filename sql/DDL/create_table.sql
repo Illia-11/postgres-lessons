@@ -51,3 +51,24 @@ CREATE TABLE IF NOT EXISTS users();
   1234
   1234.567
 */
+
+--
+/*
+  Міні ДЗ:
+    Створити наступну таблицю Книжки у вашій БД з наступними стовпчиками:
+      назва
+      автор
+      кількість сторінок
+      чи є на складі
+      синопсис
+      ціна
+*/
+CREATE TABLE IF NOT EXISTS books(
+  title VARCHAR(300),
+  author VARCHAR(128),
+  pages SMALLINT,
+  is_exists BOOLEAN,
+  synopsis TEXT,
+  price NUMERIC(9,2)
+);
+--
