@@ -1,21 +1,29 @@
 -- CREATE TABLE - створює таблиці у БД
 CREATE TABLE my_table(); -- пуста таблиця
 -- таблиця зі стовпчиками
+-- @block
 CREATE TABLE users(
   -- стовпчики пишуться у форматі імʼя тип_даних
   -- id SERIAL, -- автоінкрементований цілочислений тип даних
   -- UUID який буде генеруватися за замовчанням якщо його не вказати
   -- id UUID DEFAULT gen_random_uuid(),
-  id SERIAL NOT NULL,
+  id SERIAL NOT NULL UNIQUE,
   first_name VARCHAR(64) NOT NULL,
   last_name VARCHAR(64) NOT NULL,
-  email VARCHAR(256) NOT NULL,
+  -- UNIQUE - обмеження стовпчика яке гарантує унікальність значень у ньому.
+  -- Є ключем для таблиці
+  email VARCHAR(256) NOT NULL UNIQUE,
   account_balance NUMERIC(11,2) DEFAULT 0.00, -- число
   is_male BOOLEAN, -- булеве значення
-  birthday DATE -- дата
+  birthday DATE, -- дата
+  -- UNIQUE як обмеження таблиці
+  -- робимо значення стовпчика birthday унікальними по іншому
+  -- UNIQUE (birthday)
+  -- у таблиці можуть бути тільки унікаьлні комбінації імен і прізвищ
+  UNIQUE (first_name, last_name)
 );
 
---
+-- @block
 CREATE TABLE IF NOT EXISTS users();
 
 /*
