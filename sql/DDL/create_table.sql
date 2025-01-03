@@ -6,10 +6,10 @@ CREATE TABLE users(
   -- id SERIAL, -- автоінкрементований цілочислений тип даних
   -- UUID який буде генеруватися за замовчанням якщо його не вказати
   -- id UUID DEFAULT gen_random_uuid(),
-  id SERIAL,
-  first_name VARCHAR(64),
-  last_name VARCHAR(64),
-  email VARCHAR(256),
+  id SERIAL NOT NULL,
+  first_name VARCHAR(64) NOT NULL,
+  last_name VARCHAR(64) NOT NULL,
+  email VARCHAR(256) NOT NULL,
   account_balance NUMERIC(11,2) DEFAULT 0.00, -- число
   is_male BOOLEAN, -- булеве значення
   birthday DATE -- дата
