@@ -10,19 +10,21 @@ CREATE TABLE users(
   -- PRIMARY KEY - комбінація обмежень UNIQUE NOT NULL
   -- 
   id SERIAL PRIMARY KEY,
-  first_name VARCHAR(64) NOT NULL,
-  last_name VARCHAR(64) NOT NULL,
+  first_name VARCHAR(64) NOT NULL CHECK (first_name != ''),
+  last_name VARCHAR(64) NOT NULL CHECK (last_name != ''),
   -- UNIQUE - обмеження стовпчика яке гарантує унікальність значень у ньому.
   -- Є ключем для таблиці
-  email VARCHAR(256) NOT NULL UNIQUE,
-  account_balance NUMERIC(11,2) DEFAULT 0.00, -- число
+  email VARCHAR(256) NOT NULL UNIQUE CHECK (email != ''),
+  account_balance NUMERIC(11,2) DEFAULT 0.00 CHECK (account_balance >= 0), -- число
+  height NUMERIC(3,2) NOT NULL CHECK(height >= 0.5 AND height <= 3),
   is_male BOOLEAN, -- булеве значення
-  birthday DATE, -- дата
+  birthday DATE CHECK (birthday > '1890-01-01' AND birthday <= current_date), -- дата
   -- UNIQUE як обмеження таблиці
   -- робимо значення стовпчика birthday унікальними по іншому
   -- UNIQUE (birthday)
   -- у таблиці можуть бути тільки унікаьлні комбінації імен і прізвищ
-  UNIQUE (first_name, last_name)
+  UNIQUE (first_name, last_name),
+  CHECK (last_name != '')
 );
 
 -- @block
