@@ -7,7 +7,9 @@ CREATE TABLE users(
   -- id SERIAL, -- автоінкрементований цілочислений тип даних
   -- UUID який буде генеруватися за замовчанням якщо його не вказати
   -- id UUID DEFAULT gen_random_uuid(),
-  id SERIAL NOT NULL UNIQUE,
+  -- PRIMARY KEY - комбінація обмежень UNIQUE NOT NULL
+  -- 
+  id SERIAL PRIMARY KEY,
   first_name VARCHAR(64) NOT NULL,
   last_name VARCHAR(64) NOT NULL,
   -- UNIQUE - обмеження стовпчика яке гарантує унікальність значень у ньому.
@@ -21,6 +23,13 @@ CREATE TABLE users(
   -- UNIQUE (birthday)
   -- у таблиці можуть бути тільки унікаьлні комбінації імен і прізвищ
   UNIQUE (first_name, last_name)
+);
+
+-- @block
+CREATE TABLE cars_to_dealerships (
+  car_id INT,
+  dealership_id INT,
+  PRIMARY KEY (car_id, dealership_id)
 );
 
 -- @block
