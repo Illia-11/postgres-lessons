@@ -38,3 +38,23 @@ WHERE account_balance >= 500 AND account_balance <= 5000;
 -- всі користувачі з балансом від 500 до 5000
 SELECT * FROM users
 WHERE account_balance BETWEEN 500 AND 5000;
+-- Сортування результатів
+/*
+  ORDER BY стовпчик_по_якому_сортувати напрям_сортування
+
+  напрями:
+    ASC - по зростанню (за замовчанням)
+    DESC - по спаданню
+*/
+-- сортування по айдішніку по зростанню
+SELECT * FROM users
+ORDER BY id ASC;
+-- сортування по балансу аккаунту по спаданню і по висоті по зростанню
+SELECT * FROM users
+ORDER BY account_balance DESC, height ASC;
+-- 
+SELECT * FROM users
+ORDER BY email ASC;
+-- 
+SELECT * FROM users
+ORDER BY birthday ASC;
