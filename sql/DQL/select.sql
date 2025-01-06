@@ -22,3 +22,19 @@ SELECT id, first_name || ' ' || last_name full_name FROM users;
 SELECT id, email, account_balance AS "accountBalance" FROM users;
 -- або
 SELECT id айдішнік, email пошта, account_balance "accountBalance" FROM users;
+-- WHERE
+-- усі користувачі з висотою 1.75
+SELECT * FROM users
+WHERE height = 1.75;
+-- всі користувачі які не вказали дату народження
+SELECT * FROM users
+WHERE birthday IS NULL;
+-- знайти всіх жінок
+SELECT * FROM users
+WHERE NOT is_male;
+-- всі користувачі з балансом від 500 до 5000
+SELECT * FROM users
+WHERE account_balance >= 500 AND account_balance <= 5000;
+-- всі користувачі з балансом від 500 до 5000
+SELECT * FROM users
+WHERE account_balance BETWEEN 500 AND 5000;
