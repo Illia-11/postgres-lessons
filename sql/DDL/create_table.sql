@@ -23,6 +23,8 @@ CREATE TABLE users(
   height NUMERIC(3,2) NOT NULL CHECK(height >= 0.5 AND height <= 3),
   is_male BOOLEAN, -- булеве значення
   birthday DATE CHECK (birthday > '1890-01-01' AND birthday <= current_date), -- дата
+  updated_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
+  created_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
   -- UNIQUE як обмеження таблиці
   -- робимо значення стовпчика birthday унікальними по іншому
   -- UNIQUE (birthday)
