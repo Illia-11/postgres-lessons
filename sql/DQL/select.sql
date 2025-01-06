@@ -58,3 +58,14 @@ ORDER BY email ASC;
 -- 
 SELECT * FROM users
 ORDER BY birthday ASC;
+-- пагінація
+/*
+  LIMIT число - вказує скільки результатів має повернути селект (results)
+  OFFSET число - вказує скільки результатів треба пропестити (+- page)
+*/
+-- повернути одного користувача
+SELECT * FROM users
+ORDER BY id ASC
+-- після сортування якщо воно є
+LIMIT 1
+OFFSET 2;
