@@ -1,69 +1,37 @@
-const { Client } = require("pg");
+const { Client } = require('pg');
+const _ = require('lodash');
+const { getUsers } = require('../api');
 
 const config = {
-  user: "postgres",
-  password: "postgres",
-  host: "localhost",
+  user: 'postgres',
+  password: 'postgres',
+  host: 'localhost',
   port: 5432,
-  database: "lessons",
+  database: 'lessons',
 };
 
 const client = new Client(config);
 
-const user = {
-  firstName: "Insert",
-  lastName: "Insertovich",
-  email: "inserter@gmail.com",
-  accountBalance: 250,
-  height: 1.67,
-  isMale: true,
-  birthday: "1980-07-15",
-};
 
-const users = [
-  {
-    firstName: "Insert 1",
-    lastName: "Insertovich 1",
-    email: "inserter1@gmail.com",
-    accountBalance: 250,
-    height: 1.67,
-    isMale: true,
-    birthday: "1980-07-15",
-  },
-  {
-    firstName: "Insert 2",
-    lastName: "Insertovich 2",
-    email: "inserter2@gmail.com",
-    accountBalance: 250,
-    height: 1.67,
-    isMale: false,
-    birthday: "1995-02-12",
-  },
-  {
-    firstName: "Insert 3",
-    lastName: "Insertovich 3",
-    email: "inserter3@gmail.com",
-    accountBalance: 250,
-    height: 1.67,
-    isMale: true,
-    birthday: "1976-07-15",
-  },
-];
+function mapUser(user) {
 
-function mapUser() {
-  return `('${user.firstName}', '${user.lastName}', '${user.email}', ${user.isMale}, ${user.height}, ${user.accountBalance}, '${user.birthday}')`;
+  const { name: {first, last}, email, gender, dob: {date: birthday}} = user;
+
+  const height = _.random(1.3, 2);
+
+  const accountBalance = _.random(0, 25000);
+
+  return `('${first}', '${last}',' ${email}', ${gender === 'male'}, ${height}, ${accountBalance}, '${birthday}')`;
 }
-
-const usersInsertStringsArray = users.map(mapUser);
-
-// console.log(usersInsertStrings);
-
-const usersInsertStrings = usersInsertStringsArray.join(",");
-
-// console.log(usersInsertStrings);
 
 async function startScript() {
   await client.connect();
+
+  const users = await getUsers();
+
+  const usersInsertStringsArray = users.map(mapUser);
+
+  const usersInsertString = usersInsertStringsArray.join(',');
 
   const res = await client.query(`
     INSERT INTO users (
@@ -75,13 +43,13 @@ async function startScript() {
       account_balance,
       birthday
     ) VALUES
-    ${usersInsertStrings}
-    RETURNING *; 
+    ${usersInsertString}
+    RETURNING *;
   `);
 
-  // console.log(res); // res.rows - результати запиту (користувачі)
+  // console.log(res); // res.rows - резульатати запиту (користувачі)
 
-  console.log(res.rows[0]);
+  console.log(res.rows);
 
   await client.end();
 }
