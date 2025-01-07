@@ -89,3 +89,19 @@ SELECT sum(account_balance) "всього грошей" FROM users;
 -- скільки користувачів мають певне імʼя
 SELECT count(*) FROM users
 WHERE first_name = 'Kuzman';
+-- кількість чоловіків
+SELECT count(*) FROM users
+WHERE is_male = false;
+-- середній зріст чоловіків
+SELECT avg(height) FROM users
+WHERE is_male = TRUE;
+-- середній зріст чоловіків
+SELECT avg(height) FROM users
+WHERE is_male = FALSE;
+-- середній зріст і чоловіків і жінок у одному запиті
+SELECT avg(height), min(height), is_male FROM users
+GROUP BY is_male;
+-- групування
+-- всі унікальні значення висоти
+SELECT height FROM users
+GROUP BY height;
