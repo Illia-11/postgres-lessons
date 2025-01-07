@@ -1,0 +1,5 @@
+{
+  "baseURL": "https://randomuser.me/api/",
+  "seed": 12346,
+  "results": 50
+}

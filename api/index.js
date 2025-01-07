@@ -1,13 +1,16 @@
-const axios = require("axios");
+const axios = require('axios');
+const { baseURL, results, seed } = require('../configs/api.json');
 
 const httpClient = axios.create({
-  baseURL: "https://randomuser.me/api/",
+  baseURL
 });
 
 module.exports.getUsers = async () => {
-  const result = await httpClient.get("?seed=12345&page=1&results=50");
+  const result = await httpClient.get(`?seed=${seed}&results=${results}`);
 
-  const { data: { results: users } } = result;
+  const {
+    data: { results: users },
+  } = result;
 
   return users;
-}
+};

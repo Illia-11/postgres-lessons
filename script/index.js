@@ -1,14 +1,7 @@
 const { Client } = require('pg');
+const config = require('../configs/db.json');
 const { getUsers } = require('../api');
-const { mapUser } = require("../utils/userUtils")
-
-const config = {
-  user: 'postgres',
-  password: 'postgres',
-  host: 'localhost',
-  port: 5432,
-  database: 'lessons',
-};
+const { mapUser } = require('../utils/userUtils');
 
 const client = new Client(config);
 
@@ -36,8 +29,6 @@ async function startScript() {
   `);
 
   // console.log(res); // res.rows - резульатати запиту (користувачі)
-
-  console.log(res.rows);
 
   await client.end();
 }

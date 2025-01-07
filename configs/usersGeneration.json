@@ -1,0 +1,6 @@
+{
+  "minHeight": 1.3,
+  "maxHeight": 2,
+  "minAccountBalance": 100,
+  "maxAccountBalance": 25000
+}
