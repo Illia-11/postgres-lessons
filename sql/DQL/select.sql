@@ -69,3 +69,23 @@ ORDER BY id ASC
 -- після сортування якщо воно є
 LIMIT 1
 OFFSET 2;
+/*
+  Агрегатні функції - функції, які з багатьох значень 
+
+      avg - середнє значення
+      min - мінімальне значення
+      max - максимальне значення
+      sum - сума вхідних значень / виразів. (аналог reduce у js)
+      count - рахує кількість кортежів або рядку у запиті
+*/
+-- мінімальний зріст користувача
+SELECT min(height) FROM users;
+-- середній зріст користувачів
+SELECT avg(height) FROM users;
+-- максимальний зріст користувача
+SELECT max(height) FROM users;
+-- загальна кількість грошей на всіз акаунтах
+SELECT sum(account_balance) "всього грошей" FROM users;
+-- скільки користувачів мають певне імʼя
+SELECT count(*) FROM users
+WHERE first_name = 'Kuzman';
