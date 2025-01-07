@@ -1,6 +1,6 @@
 const { Client } = require('pg');
-const _ = require('lodash');
 const { getUsers } = require('../api');
+const { mapUser } = require("../utils/userUtils")
 
 const config = {
   user: 'postgres',
@@ -11,18 +11,6 @@ const config = {
 };
 
 const client = new Client(config);
-
-
-function mapUser(user) {
-
-  const { name: {first, last}, email, gender, dob: {date: birthday}} = user;
-
-  const height = _.random(1.3, 2);
-
-  const accountBalance = _.random(0, 25000);
-
-  return `('${first}', '${last}',' ${email}', ${gender === 'male'}, ${height}, ${accountBalance}, '${birthday}')`;
-}
 
 async function startScript() {
   await client.connect();
