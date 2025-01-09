@@ -23,3 +23,28 @@
       Тернарний звʼязок
       ...
 */
+-- @block 1 : m
+CREATE TABLE IF NOT EXISTS users(
+  id SERIAL PRIMARY KEY,
+  first_name VARCHAR(64) NOT NULL CHECK (first_name != ''),
+  last_name VARCHAR(64) NOT NULL,
+  email VARCHAR(256) NOT NULL 
+  CONSTRAINT "email must be unique" UNIQUE 
+  CONSTRAINT "not empty email" CHECK (email != ''),
+  account_balance NUMERIC(11,2) DEFAULT 0.00 CHECK (account_balance >= 0),
+  height NUMERIC(3,2) NOT NULL CHECK(height >= 0.5 AND height <= 3),
+  is_male BOOLEAN,
+  birthday DATE CHECK (birthday > '1890-01-01' AND birthday <= current_date),
+  updated_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
+  created_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
+  CONSTRAINT "only unique combination of first and last name allowed" UNIQUE (first_name, last_name),
+  CHECK (last_name != '')
+);
+-- 
+CREATE TABLE IF NOT EXISTS orders(
+  id SERIAL PRIMARY KEY,
+  -- user_id INT NOT NULL REFERENCES users (id),
+  user_id INT NOT NULL REFERENCES users,
+  updated_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
+  created_at TIMESTAMP NOT NULL DEFAULT current_timestamp
+);
