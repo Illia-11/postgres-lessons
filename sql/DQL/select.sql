@@ -105,3 +105,28 @@ GROUP BY is_male;
 -- всі унікальні значення висоти
 SELECT height FROM users
 GROUP BY height;
+--
+/*
+  ДЗ:
+    Знайти:
+    1. Мінімальний баланс чоловіків
+
+    2. Мінімальний, максимальний і середній баланс жінок
+
+    3. Кількість людей які народилися у певну дату
+
+    4. Кількість чоловіків і жінок баланс яких більше за 3000
+*/
+SELECT min(account_balance) FROM users
+WHERE is_male;
+
+SELECT min(account_balance), max(account_balance), avg(account_balance) FROM users
+WHERE NOT is_male;
+
+SELECT count(*) FROM users
+WHERE birthday = '1947-03-26';
+
+SELECT count(*), is_male FROM users
+WHERE account_balance > 3000
+GROUP BY is_male;
+--
