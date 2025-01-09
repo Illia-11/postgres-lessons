@@ -130,3 +130,12 @@ SELECT count(*), is_male FROM users
 WHERE account_balance > 3000
 GROUP BY is_male;
 --
+-- вивести кількість записів у таблиці для кожного імені
+SELECT count(id), first_name FROM users
+GROUP BY first_name;
+-- вивести кількість записів у таблиці для кожного імені якщо цих записів більше ніж 1
+SELECT count(id), first_name FROM users
+-- WHERE "кількість імен" > 1 -- не спрацює. Агрегатні функції запускаються після WHERE
+GROUP BY first_name
+-- HAVING - аналог WHERE який фільтрує результати груп та группування та агрегацій
+HAVING count(id) > 1;
