@@ -96,10 +96,81 @@ CREATE TABLE IF NOT EXISTS country_2 (
 --
 CREATE TABLE IF NOT EXISTS anthem_2 (
   id SERIAL PRIMARY KEY,
-  country_id INT NOT NULL REFERENCES country_2 UNIQUE,
+  country_id INT NOT NULL UNIQUE REFERENCES country_2 DEFERRABLE INITIALLY DEFERRED,
   created_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
   updated_at TIMESTAMP NOT NULL DEFAULT current_timestamp
 );
 --
 ALTER TABLE country_2
-ADD COLUMN anthem_id INT NOT NULL UNIQUE REFERENCES anthem_2;
+ADD COLUMN anthem_id INT NOT NULL UNIQUE REFERENCES anthem_2 DEFERRABLE INITIALLY DEFERRED;
+-- @block вставка даних
+INSERT INTO users (
+    id,
+    first_name,
+    last_name,
+    email,
+    account_balance,
+    height,
+    is_male,
+    birthday
+  )
+VALUES (
+    100000,
+    'Buyer',
+    'Byerenko',
+    'buyer@gmail.com',
+    1500000,
+    1.88,
+    TRUE,
+    '1989-05-05'
+    );
+--
+INSERT INTO products (
+    name,
+    price,
+    quantity,
+    category,
+    is_for_adult
+  )
+VALUES
+('Phone Super', 5000, 500, 'phones', false),
+('GigaBrush', 150, 99999, 'bathroom', false),
+('Mega TV', 500000, 12351542, 'electronics', false),
+('Rum', 3000, 14500, 'alcohol', true);
+-- 1 : m
+INSERT INTO orders (user_id)
+VALUES (100000),
+(8),
+(8),
+(10),
+(8);
+-- n : m
+INSERT INTO products_to_orders (order_id, product_id, quantity)
+VALUES
+(1, 1, 1),
+(2, 2, 5),
+(2, 4, 10),
+(3, 1, 2);
+-- error
+INSERT INTO products_to_orders (order_id, product_id, quantity)
+VALUES (NULL, NULL, NULL);
+-- @block 0 : 1
+INSERT INTO country_1 ("name")
+VALUES ('Країна 1'), ('Країна 2');
+--
+INSERT INTO anthem_1 (country_id)
+VALUES (1), (2);
+--
+UPDATE country_1
+SET anthem_id = 1 WHERE id = 1;
+UPDATE country_1
+SET anthem_id = 2 WHERE id = 2;
+-- @block 1 : 1
+BEGIN; -- старт транзакції
+INSERT INTO anthem_2 (country_id)
+VALUES (1), (2);
+--
+INSERT INTO country_2 ("name", "anthem_id")
+VALUES ('Test', 1), ('Test2', 2);
+--
+COMMIT;
