@@ -67,3 +67,39 @@ CREATE TABLE IF NOT EXISTS products_to_orders (
   quantity INT,
   PRIMARY KEY (product_id, order_id)
 );
+-- @block 0 : 1 (нежорстка версія)
+CREATE TABLE IF NOT EXISTS country_1 (
+  id SERIAL PRIMARY KEY,
+  -- anthem_id INT UNIQUE REFERENCES anthem_1,
+  "name" TEXT,
+  created_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
+  updated_at TIMESTAMP NOT NULL DEFAULT current_timestamp
+);
+--
+CREATE TABLE IF NOT EXISTS anthem_1 (
+  id SERIAL PRIMARY KEY,
+  country_id INT NOT NULL REFERENCES country_1 UNIQUE,
+  created_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
+  updated_at TIMESTAMP NOT NULL DEFAULT current_timestamp
+);
+--
+ALTER TABLE country_1
+ADD COLUMN anthem_id INT UNIQUE REFERENCES anthem_1;
+-- @block 1 : 1 (жорстка версія)
+CREATE TABLE IF NOT EXISTS country_2 (
+  id SERIAL PRIMARY KEY,
+  -- anthem_id INT UNIQUE REFERENCES anthem_1,
+  "name" TEXT,
+  created_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
+  updated_at TIMESTAMP NOT NULL DEFAULT current_timestamp
+);
+--
+CREATE TABLE IF NOT EXISTS anthem_2 (
+  id SERIAL PRIMARY KEY,
+  country_id INT NOT NULL REFERENCES country_2 UNIQUE,
+  created_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
+  updated_at TIMESTAMP NOT NULL DEFAULT current_timestamp
+);
+--
+ALTER TABLE country_2
+ADD COLUMN anthem_id INT NOT NULL UNIQUE REFERENCES anthem_2;
