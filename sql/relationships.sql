@@ -48,3 +48,22 @@ CREATE TABLE IF NOT EXISTS orders(
   updated_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
   created_at TIMESTAMP NOT NULL DEFAULT current_timestamp
 );
+-- @block n : m
+-- робиться за допомогою "звʼязувальної таблиці"
+CREATE TABLE IF NOT EXISTS products(
+  id SERIAL PRIMARY KEY,
+  "name" VARCHAR(100),
+  price NUMERIC(9,2) NOT NULL CHECK (price >= 0),
+  quantity INT NOT NULL CHECK (quantity >= 0),
+  category VARCHAR(100) NOT NULL CHECK (category != ''),
+  is_for_adult BOOLEAN DEFAULT FALSE,
+  updated_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
+  created_at TIMESTAMP NOT NULL DEFAULT current_timestamp
+);
+-- звʼязувальна таблиця
+CREATE TABLE IF NOT EXISTS products_to_orders (
+  product_id INT NOT NULL REFERENCES products,
+  order_id INT NOT NULL REFERENCES orders,
+  quantity INT,
+  PRIMARY KEY (product_id, order_id)
+);
