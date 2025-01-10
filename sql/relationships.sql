@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS users(
 CREATE TABLE IF NOT EXISTS orders(
   id SERIAL PRIMARY KEY,
   -- user_id INT NOT NULL REFERENCES users (id),
-  user_id INT NOT NULL REFERENCES users,
+  user_id INT NOT NULL REFERENCES users ON DELETE CASCADE ON UPDATE CASCADE,
   updated_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
   created_at TIMESTAMP NOT NULL DEFAULT current_timestamp
 );
@@ -62,8 +62,8 @@ CREATE TABLE IF NOT EXISTS products(
 );
 -- звʼязувальна таблиця
 CREATE TABLE IF NOT EXISTS products_to_orders (
-  product_id INT NOT NULL REFERENCES products,
-  order_id INT NOT NULL REFERENCES orders,
+  product_id INT NOT NULL REFERENCES products ON DELETE CASCADE ON UPDATE CASCADE,
+  order_id INT NOT NULL REFERENCES orders ON DELETE CASCADE ON UPDATE CASCADE,
   quantity INT,
   PRIMARY KEY (product_id, order_id)
 );
@@ -78,13 +78,13 @@ CREATE TABLE IF NOT EXISTS country_1 (
 --
 CREATE TABLE IF NOT EXISTS anthem_1 (
   id SERIAL PRIMARY KEY,
-  country_id INT NOT NULL REFERENCES country_1 UNIQUE,
+  country_id INT NOT NULL UNIQUEREFERENCES country_1 ON DELETE CASCADE ON UPDATE CASCADE,
   created_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
   updated_at TIMESTAMP NOT NULL DEFAULT current_timestamp
 );
 --
 ALTER TABLE country_1
-ADD COLUMN anthem_id INT UNIQUE REFERENCES anthem_1;
+ADD COLUMN anthem_id INT UNIQUE REFERENCES anthem_1 ON DELETE CASCADE ON UPDATE CASCADE;
 -- @block 1 : 1 (жорстка версія)
 CREATE TABLE IF NOT EXISTS country_2 (
   id SERIAL PRIMARY KEY,
@@ -96,13 +96,13 @@ CREATE TABLE IF NOT EXISTS country_2 (
 --
 CREATE TABLE IF NOT EXISTS anthem_2 (
   id SERIAL PRIMARY KEY,
-  country_id INT NOT NULL UNIQUE REFERENCES country_2 DEFERRABLE INITIALLY DEFERRED,
+  country_id INT NOT NULL UNIQUE REFERENCES country_2 ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED,
   created_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
   updated_at TIMESTAMP NOT NULL DEFAULT current_timestamp
 );
 --
 ALTER TABLE country_2
-ADD COLUMN anthem_id INT NOT NULL UNIQUE REFERENCES anthem_2 DEFERRABLE INITIALLY DEFERRED;
+ADD COLUMN anthem_id INT NOT NULL UNIQUE REFERENCES anthem_2 ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY DEFERRED;
 -- @block вставка даних
 INSERT INTO users (
     id,
@@ -174,3 +174,14 @@ INSERT INTO country_2 ("name", "anthem_id")
 VALUES ('Test', 1), ('Test2', 2);
 --
 COMMIT;
+-- @block видалення повʼязаних таблиць
+DROP TABLE anthem_2 CASCADE; -- видалення зовнішнього ключа
+
+DELETE FROM users WHERE id = 100000;
+
+--
+ALTER TABLE orders
+DROP CONSTRAINT orders_user_id_fkey;
+--
+ALTER TABLE orders
+ADD FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE;
