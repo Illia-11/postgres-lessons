@@ -106,3 +106,17 @@ VALUES
 ('District 2'),
 ('District 3'),
 ('District 4');
+--
+SELECT r.name "ресторан", d.delivery_location "район доставки",
+ft.name "назва їжі", ft.price
+FROM restoraunts r
+  JOIN delivery d ON  r.id = d.restoraunt_id
+  JOIN food_types ft ON ft.id = d.food_id;
+--
+SELECT r.name "ресторан", dl.elivery_location "район доставки",
+ft.name "назва їжі", ft.price
+FROM restoraunts r
+  JOIN restoraunts_to_foods rtf ON rtf.restoraunt_id = r.id
+  JOIN food_types ft ON ft.id = rtf.food_id
+  JOIN restoraunts_to_locations rtl ON r.id = rtl.restoraunt_id
+  JOIN delivery_locations dl ON dl.id = rtl.location_id;
