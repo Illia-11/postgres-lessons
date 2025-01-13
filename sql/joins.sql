@@ -61,3 +61,13 @@ SELECT id FROM users
 EXCEPT
 SELECT user_id FROM oders
 ORDER BY id ASC;
+-- @block
+-- Декартовий добуток - всі рядки з таблиці а множаться на всі рядки з таблиці b (багато зайвого сміття)
+SELECT * FROM a, b;
+-- @block
+-- Декартовий добуток, результати якого відфільтровано по якомусь спільному значенню яке є у обох таблицях
+SELECT * FROM a, b
+WHERE a.field_1 = b.field_1;
+--
+SELECT * FROM a
+  JOIN b ON a.field_1 = b.field_1;
