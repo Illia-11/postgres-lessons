@@ -2,5 +2,9 @@
   "minHeight": 1.3,
   "maxHeight": 2,
   "minAccountBalance": 100,
-  "maxAccountBalance": 25000
+  "maxAccountBalance": 25000,
+  "minWeight": 1,
+  "maxWeight": 170,
+  "minComments": 0,
+  "maxComments": 100
 }
