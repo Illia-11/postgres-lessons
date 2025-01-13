@@ -85,4 +85,54 @@ SELECT p.name, p.price, pto.quantity, o.status
 FROM orders o
   JOIN products_to_orders pto ON pto.order_id = o.id
   JOIN products p ON pto.product_id = p.id;
+/*
+  Види JOIN-ів:
+    1. CROSS JOIN - перехресне зʼєднання - це декартовий добуток
+    2. INNER JOIN - внутрішнє зʼєднання (за замовчанням)
+    3. OUTER JOIN - зовнішнє зʼєнання. Спочатку виконується INNER JOIN потім
+      3.1 LEFT - з "лівої" таблиці повертаються всі відфільтровані значення
+      3.2 RIGHT - з "правої" таблиці повертаються всі відфільтровані значення
+      3.3 FULL - спочатку виконує лівий, а потім правий JOIN
+*/
 --
+SELECT * FROM
+users u -- ліва таблиця
+LEFT JOIN
+orders o -- права таблиця
+ON user_id = u.id
+ORDER BY u.id ASC;
+--
+SELECT * FROM
+orders o -- права таблиця
+RIGHT JOIN
+users u -- ліва таблиця
+ON user_id = u.id
+ORDER BY u.id ASC;
+--
+SELECT u.*, o.* FROM
+orders o -- ліва таблиця
+RIGHT JOIN
+users u -- права таблиця
+ON user_id = u.id
+ORDER BY u.id ASC;
+--
+SELECT u.*, o.* FROM
+orders o -- ліва таблиця
+FULL JOIN
+users u -- права таблиця
+ON user_id = u.id
+ORDER BY u.id ASC;
+-- ексклюзивні джойни
+-- всі користувачі які ще не зробили замовлення у магазині
+SELECT * FROM
+users u -- ліва таблиця
+LEFT JOIN
+orders o -- права таблиця
+ON user_id = u.id
+WHERE user_id IS NULL
+ORDER BY u.id ASC;
+-- отримати емейли всіх користувачів та їх кількість замовлень
+SELECT u.id, first_name, last_name, email, count(o.id)
+FROM orders o
+RIGHT JOIN users u ON u.id = user_id
+GROUP BY u.id;
