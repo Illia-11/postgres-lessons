@@ -68,6 +68,21 @@ SELECT * FROM a, b;
 -- Декартовий добуток, результати якого відфільтровано по якомусь спільному значенню яке є у обох таблицях
 SELECT * FROM a, b
 WHERE a.field_1 = b.field_1;
---
+-- JOIN - зʼєднання декількох таблиць
 SELECT * FROM a
   JOIN b ON a.field_1 = b.field_1;
+-- Показ конкретних стовпчиків у результатах
+SELECT orders.id, "status", email 
+FROM orders
+JOIN users ON user_id = users.id;
+-- айді замовлення, його статус та емейл покупця
+SELECT o.id, "status", email AS "електронна пошта"
+FROM orders AS o
+JOIN users u ON user_id = u.id;
+-- назва ціна кожного продукту для всіх замовлень,
+-- кількість кожного товару у замовлені та статус замовлення
+SELECT p.name, p.price, pto.quantity, o.status
+FROM orders o
+  JOIN products_to_orders pto ON pto.order_id = o.id
+  JOIN products p ON pto.product_id = p.id;
+--
