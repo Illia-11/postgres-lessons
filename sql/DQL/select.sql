@@ -139,3 +139,19 @@ SELECT count(id), first_name FROM users
 GROUP BY first_name
 -- HAVING - аналог WHERE який фільтрує результати груп та группування та агрегацій
 HAVING count(id) > 1;
+-- Підзапити
+SELECT avg(weight) FROM users;
+-- показати всіх користувачів вага яких менша за середню
+SELECT * FROM users
+WHERE weight < (SELECT avg(weight) FROM users); -- використання скалярного підзапиту для знаходження середньої ваги
+-- показати імʼя, прізвище, емейл, вік та дату народження користувачів які старші за 40 років
+SELECT first_name, last_name, email, extract(year from age(birthday)) "age", birthday
+FROM users
+WHERE extract(year from age(birthday)) > 50;
+--
+SELECT first_name, last_name, email, users_with_age.age, birthday
+FROM (
+  SELECT first_name, last_name, email, extract(year from age(birthday)) "age", birthday
+  FROM users
+) users_with_age
+WHERE users_with_age.age > 50;
